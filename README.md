@@ -56,6 +56,7 @@ iPADOS 13*
 * [Swift](https://swift.org) - 
 *  MVVM - Architecture used
 *  View-Code layout
+*  Love - <3
 
 ## Authors
 
