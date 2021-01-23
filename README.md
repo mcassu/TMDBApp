@@ -56,7 +56,7 @@ iPADOS 13*
 * [Swift](https://swift.org) - 
 *  MVVM - Architecture used
 *  View-Code layout
-*  Love - ♡
+*  ♡
 
 ## Authors
 
@@ -64,5 +64,5 @@ iPADOS 13*
 
 
 ## Credits
-<code><img height="30" src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg"></code>
+<code><img height="35" src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg"></code>
 * The database and API used by [TMDB](https://www.themoviedb.org/), it's so great.
