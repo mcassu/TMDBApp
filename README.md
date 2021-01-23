@@ -15,7 +15,7 @@ XCode 12 *
 Connection with Internet 
 Get a Key on the Website below
 ```
-[TMDB](https://www.themoviedb.org/documentation/api)
+[TMDB ApiKey](https://www.themoviedb.org/documentation/api)
 
 ### Instalation
 
@@ -63,5 +63,5 @@ iPADOS 13*
 
 
 ## Credits
-<code><img height="100" src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg"></code>
+<code><img height="50" src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg"></code>
 * The database and API used by [TMDB](https://www.themoviedb.org/), it's so great.
