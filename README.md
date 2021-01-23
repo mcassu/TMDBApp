@@ -19,7 +19,7 @@ Get a Key on the Website below
 
 ### Instalation
 
-Double click on newsApp.xcodeproj<br>
+Double click on TMDBApp.xcodeproj<br>
 go to folder Util > APIProvider.swfit
 
 ```swift
