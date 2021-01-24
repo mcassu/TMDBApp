@@ -26,6 +26,7 @@ struct TvShowObj: Codable {
     var backdrop_path: String?
     var id: Int?
     var original_name: String?
+    var name: String?
     var vote_average: Double?
     var vote_count: Int?
     var popularity: Double?
