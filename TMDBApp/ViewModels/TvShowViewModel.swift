@@ -66,7 +66,7 @@ extension TvShowViewModel {
     }
     
     var title: String {
-        return self.tvShow.original_name ?? ""
+        return self.tvShow.name ?? ""
     }
     
     var overview: String {
