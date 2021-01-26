@@ -41,8 +41,7 @@ extension TvShowListViewModel {
     func count() -> Int{
        return tvShows.count
     }
-    
-   
+
 }
 
 struct TvShowViewModel {

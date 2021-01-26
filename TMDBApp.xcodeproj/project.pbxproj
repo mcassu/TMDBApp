@@ -10,6 +10,9 @@
 		040A040F25BB5097005C0371 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040A040E25BB5097005C0371 /* Genre.swift */; };
 		040A041425BB5B06005C0371 /* Data+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040A041325BB5B06005C0371 /* Data+Ext.swift */; };
 		040A041725BB5B46005C0371 /* UImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040A041625BB5B46005C0371 /* UImage+Ext.swift */; };
+		0473C87325BFAAE300F7C193 /* CGFloat+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0473C87225BFAAE300F7C193 /* CGFloat+Ext.swift */; };
+		0473C87725BFAC7B00F7C193 /* UICollectionView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0473C87625BFAC7B00F7C193 /* UICollectionView+Ext.swift */; };
+		0473C87A25BFB1CD00F7C193 /* UIEdgeInsets+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0473C87925BFB1CD00F7C193 /* UIEdgeInsets+Ext.swift */; };
 		048DC69225B8E7A600222664 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048DC69125B8E7A600222664 /* AppDelegate.swift */; };
 		048DC69425B8E7A600222664 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048DC69325B8E7A600222664 /* SceneDelegate.swift */; };
 		048DC69625B8E7A600222664 /* PopTvShowVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048DC69525B8E7A600222664 /* PopTvShowVC.swift */; };
@@ -31,6 +34,9 @@
 		040A040E25BB5097005C0371 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		040A041325BB5B06005C0371 /* Data+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Ext.swift"; sourceTree = "<group>"; };
 		040A041625BB5B46005C0371 /* UImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UImage+Ext.swift"; sourceTree = "<group>"; };
+		0473C87225BFAAE300F7C193 /* CGFloat+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Ext.swift"; sourceTree = "<group>"; };
+		0473C87625BFAC7B00F7C193 /* UICollectionView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Ext.swift"; sourceTree = "<group>"; };
+		0473C87925BFB1CD00F7C193 /* UIEdgeInsets+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Ext.swift"; sourceTree = "<group>"; };
 		048DC68E25B8E7A600222664 /* TMDBApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMDBApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		048DC69125B8E7A600222664 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		048DC69325B8E7A600222664 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +72,9 @@
 			children = (
 				040A041325BB5B06005C0371 /* Data+Ext.swift */,
 				040A041625BB5B46005C0371 /* UImage+Ext.swift */,
+				0473C87225BFAAE300F7C193 /* CGFloat+Ext.swift */,
+				0473C87625BFAC7B00F7C193 /* UICollectionView+Ext.swift */,
+				0473C87925BFB1CD00F7C193 /* UIEdgeInsets+Ext.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -236,11 +245,14 @@
 				040A040F25BB5097005C0371 /* Genre.swift in Sources */,
 				04C9876425BB948D00CB249A /* APIProvider.swift in Sources */,
 				048DC6B325B98EB300222664 /* TvShow.swift in Sources */,
+				0473C87725BFAC7B00F7C193 /* UICollectionView+Ext.swift in Sources */,
 				048DC6B925B9AE5300222664 /* TvShowCollectionViewCell.swift in Sources */,
 				048DC6B025B8EC6100222664 /* Alert.swift in Sources */,
 				048DC69625B8E7A600222664 /* PopTvShowVC.swift in Sources */,
 				048DC6A925B8EB4D00222664 /* FavTvShowVC.swift in Sources */,
+				0473C87A25BFB1CD00F7C193 /* UIEdgeInsets+Ext.swift in Sources */,
 				048DC69225B8E7A600222664 /* AppDelegate.swift in Sources */,
+				0473C87325BFAAE300F7C193 /* CGFloat+Ext.swift in Sources */,
 				048DC6CF25BA78FA00222664 /* CRUD.swift in Sources */,
 				048DC6C425B9D73600222664 /* DetailTvShowVC.swift in Sources */,
 				040A041425BB5B06005C0371 /* Data+Ext.swift in Sources */,
@@ -387,6 +399,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TMDBApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -407,6 +420,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TMDBApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

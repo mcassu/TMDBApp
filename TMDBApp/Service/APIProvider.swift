@@ -13,7 +13,7 @@ class APIProvider {
     //MARK: - Constants
     private let kBaseURL = "https://api.themoviedb.org"
     
-    private let kApikey = ""
+    private let kApikey = "" //PUT-YOUR-KEY-HERE
     
     private let kLanguage = "pt-BR"
 

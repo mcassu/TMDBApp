@@ -11,7 +11,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -58,20 +57,20 @@ extension SceneDelegate{
      func setupView() -> UITabBarController {
         
         var tabBarList = [UINavigationController]()
-        
+        let spaceEdgeIcon = UIEdgeInsets()
         let tabBarRoot = UITabBarController()
         tabBarRoot.tabBar.isTranslucent = false
         
         let popTvShow = PopTvShowVC()
-        
+
         let popTabItem = UITabBarItem(title: nil, image: UIImage.init(named: "flame")?.resize(targetSize: CGSize(width: 30, height: 30)), tag: 0)
-        popTabItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
+        popTabItem.imageInsets = spaceEdgeIcon.updateEdgeInsets
         popTvShow.tabBarItem = popTabItem
 
         let favTvShow = FavTvShowVC()
 
         let favTabItem = UITabBarItem(title: nil, image: UIImage.init(named: "like")?.resize(targetSize: CGSize(width: 30, height: 30)), tag: 0)
-        favTabItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
+        favTabItem.imageInsets = spaceEdgeIcon.updateEdgeInsets
         favTvShow.tabBarItem = favTabItem
         
         tabBarList = [addNav(popTvShow), addNav(favTvShow)]
@@ -94,4 +93,6 @@ extension SceneDelegate{
     }
     
 }
+
+
 

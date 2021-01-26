@@ -10,52 +10,62 @@ import UIKit
 class PopTvShowVC: UIViewController {
     
     private var tvShowListVM: TvShowListViewModel!
-    private var collectionView: UICollectionView?
     private var page = 1
     private var isLoading = false
+    private var divisor: CGFloat = 0.0
     private let radQueue = OperationQueue()
+    private lazy var collectionView: UICollectionView = {
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 8
+        layout.minimumInteritemSpacing = 8
+        layout.scrollDirection = .vertical
+        
+        let c = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        c.translatesAutoresizingMaskIntoConstraints = false
+        c.backgroundColor = .systemBackground
+        c.register(TvShowCollectionViewCell.self, forCellWithReuseIdentifier:
+                    TvShowCollectionViewCell.Identifier)
+        return c
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        divisor.updateCellSize()
+    }
 }
 
 extension PopTvShowVC {
     
-    func setupUI() {
+    private func setupUI() {
         navigationItem.title = "Séries Populares"
         let backButton = UIBarButtonItem()
         backButton.title = "Voltar"
         navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
         let refreshButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(fetchTrendTv))
         navigationItem.rightBarButtonItem  = refreshButton
+        
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
         view.backgroundColor = .systemBackground
-        
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 8
-        layout.minimumInteritemSpacing = 8
-        layout.scrollDirection = .vertical
-        
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-        collectionView?.translatesAutoresizingMaskIntoConstraints = false
-        collectionView?.backgroundColor = .systemBackground
-        collectionView?.register(TvShowCollectionViewCell.self, forCellWithReuseIdentifier:
-                                    TvShowCollectionViewCell.Identifier)
-        collectionView?.dataSource = self
-        collectionView?.delegate = self
-        
-        view.addSubview(collectionView!)
+        view.addSubview(collectionView)
         
         let safeArea = view.layoutMarginsGuide
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+        ])
         
-        collectionView?.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
-        collectionView?.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        collectionView?.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        collectionView?.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
+        divisor.updateCellSize(isInitial: true)
         
         fetchTrendTv()
-        
     }
     
     @objc private func fetchTrendTv() {
@@ -88,32 +98,24 @@ extension PopTvShowVC {
             let operation2 = BlockOperation {
                 DispatchQueue.main.async {
                     Alert.loading(isLoading: false)
-                    self.collectionView?.reloadData()
+                    self.collectionView.reloadData()
                     guard let _ = self.tvShowListVM else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                             Alert.error(avm: alertViewModel(title: "Desculpe-nos", msg: "Algo de errado aconteceu,\nTente novamente,\nVerifique sua chave."))
                         }
                         return
                     }
-                    self.scrollToTop()
+                    self.collectionView.scrollTop()
                 }
             }
             operation2.addDependency(operation1)
             self.radQueue.addOperation(operation1)
             self.radQueue.addOperation(operation2)
-            
-            
         }
-    }
-    
-    func scrollToTop() {
-        let indexPath = IndexPath(row: 0, section: 0)
-        collectionView?.scrollToItem(at: indexPath, at: .top, animated: true)
     }
 }
 
 extension PopTvShowVC: UICollectionViewDataSource {
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return self.tvShowListVM == nil ? 0 : self.tvShowListVM.numberOfSections
     }
@@ -127,14 +129,13 @@ extension PopTvShowVC: UICollectionViewDataSource {
                 TvShowCollectionViewCell else {
             fatalError("Cell not found")
         }
-          let tvShowVM = self.tvShowListVM.newAtIndex(indexPath.row)
-           cell.setup(tvshowVM: tvShowVM)
+        let tvShowVM = self.tvShowListVM.newAtIndex(indexPath.row)
+        cell.setup(tvshowVM: tvShowVM)
         return cell
     }
 }
 
 extension PopTvShowVC: UICollectionViewDelegate {
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let tvsvm = self.tvShowListVM.newAtIndex(indexPath.row)
         let detailVC = DetailTvShowVC(tvsvm)
@@ -149,15 +150,15 @@ extension PopTvShowVC: UICollectionViewDelegate {
             }
         }
     }
-
-    func fetchMoreData(){
+    
+    private func fetchMoreData(){
         isLoading = true
         Webservice().getPopTvS(page: page) { tvShows in
             if let tvShows = tvShows {
                 DispatchQueue.main.async {
                     self.page = self.page + 1
                     self.tvShowListVM.appendItens(tvShows) {
-                        self.collectionView?.reloadData()
+                        self.collectionView.reloadData()
                         self.isLoading = false
                     }
                 }
@@ -168,18 +169,9 @@ extension PopTvShowVC: UICollectionViewDelegate {
     }
 }
 
-
 extension PopTvShowVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        var Divisor: CGFloat = 0.0
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            Divisor = 3.1
-        }else {
-            Divisor = 2.1
-        }
-        
-        let width = collectionView.bounds.width/Divisor
+        let width = collectionView.bounds.width/divisor
         let height = width * 1.7
         return CGSize(width: width, height: height)
     }

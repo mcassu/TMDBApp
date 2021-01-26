@@ -66,7 +66,6 @@ class TvShowCollectionViewCell: UICollectionViewCell {
         lbTitle.text = tvshowVM.title
         
         guard let urlToDownImage = tvshowVM.urlToPosterImage else {
-            ivPoster.isHidden = true
             return
         }
         

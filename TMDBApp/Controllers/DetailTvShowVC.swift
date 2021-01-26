@@ -12,6 +12,35 @@ class DetailTvShowVC: UIViewController {
     
     private var tvShowVM: TvShowViewModel!
     
+    private var scrollView: UIScrollView = {
+        let c = UIScrollView(frame: .zero)
+        c.translatesAutoresizingMaskIntoConstraints = false
+        return c
+    }()
+    
+    private let scrollViewContainer: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        view.spacing = 8
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private let infoShowView: UIView = {
+        let view = UIView()
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            view.heightAnchor.constraint(equalToConstant: 450).isActive = true
+        }else {
+            view.heightAnchor.constraint(equalToConstant: 400).isActive = true
+        }
+        return view
+    }()
+    
+    private let backOverviewView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
     private let ivBanner: UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.clipsToBounds = true
@@ -24,6 +53,11 @@ class DetailTvShowVC: UIViewController {
     
     private let ivPoster: UIImageView = {
         let iv = UIImageView(frame: .zero)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            iv.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        }else {
+            iv.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        }
         iv.clipsToBounds = true
         iv.backgroundColor = .lightGray
         iv.contentMode = .scaleAspectFill
@@ -42,7 +76,6 @@ class DetailTvShowVC: UIViewController {
         lb.numberOfLines = 2
         return lb
     }()
-    
     
     private let lbGender: UILabel = {
         let lb = UILabel()
@@ -78,14 +111,14 @@ class DetailTvShowVC: UIViewController {
     }()
     
     private let btFav: UIButton = {
-        
         let bt = UIButton(type: .custom)
+        bt.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        bt.heightAnchor.constraint(equalToConstant: 50).isActive = true
         bt.translatesAutoresizingMaskIntoConstraints = false
         bt.backgroundColor = UIColor.init(named: "AccentColor")
         bt.clipsToBounds = true
         bt.layer.cornerRadius = 25
         return bt
-        
     }()
     
     private let lbOverview: UILabel = {
@@ -100,17 +133,36 @@ class DetailTvShowVC: UIViewController {
         return lb
     }()
     
-    let tvOverview: UITextView = {
-        let c = UITextView()
-        c.textAlignment = .justified
-        c.textColor = .label
-        c.backgroundColor = .clear
-        c.isEditable = false
-        c.font = .systemFont(ofSize: 25)
-        return c
+    private let tvOverview: UILabel = {
+        let lb = UILabel()
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        lb.font = UIFont.systemFont(ofSize: 25)
+        lb.textColor = .label
+        lb.textAlignment = .natural
+        lb.adjustsFontSizeToFitWidth = true
+        lb.minimumScaleFactor = 0.5
+        lb.numberOfLines = 0
+        return lb
     }()
     
-
+    private lazy var stackViewInfo: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [lbTitle, lbGender, lbRatening, lbCountVotes])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.distribution = .fill
+        stack.axis = .vertical
+        stack.spacing = 16
+        return stack
+    }()
+    
+    private lazy var stackViewOverview: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [lbOverview, tvOverview])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.distribution = .fill
+        stack.axis = .vertical
+        stack.spacing = 8
+        return stack
+    }()
+        
     init(_ TvShowVM: TvShowViewModel) {
         tvShowVM = TvShowVM
         super.init(nibName: nil, bundle: nil)
@@ -124,78 +176,75 @@ class DetailTvShowVC: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
+
 }
+
 extension DetailTvShowVC {
     
-    func setupUI(){
+    private func setupUI(){
         navigationItem.title = tvShowVM.title
+        
         view.backgroundColor = .systemBackground
+        view.addSubview(scrollView)
         
-        let stackView: UIStackView = {
-            let stack = UIStackView(arrangedSubviews: [lbTitle, lbGender, lbRatening, lbCountVotes])
-            stack.translatesAutoresizingMaskIntoConstraints = false
-            stack.distribution = .fill
-            stack.axis = .vertical
-            stack.spacing = 16
-            return stack
-        }()
+        scrollView.frame = view.bounds
+        scrollView.addSubview(scrollViewContainer)
         
-        let stackViewOverview: UIStackView = {
-            let stack = UIStackView(arrangedSubviews: [lbOverview, tvOverview])
-            stack.translatesAutoresizingMaskIntoConstraints = false
-            stack.distribution = .fill
-            stack.axis = .vertical
-            stack.spacing = 8
-            return stack
-        }()
-        
-        view.addSubview(ivBanner)
-        view.addSubview(stackView)
-        view.addSubview(ivPoster)
-        view.addSubview(btFav)
-        view.addSubview(stackViewOverview)
-        
-        let safeArea = view.layoutMarginsGuide
-        
-        btFav.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        btFav.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        btFav.topAnchor.constraint(equalTo: ivPoster.bottomAnchor, constant: -40).isActive = true
-        btFav.leftAnchor.constraint(equalTo: ivPoster.rightAnchor, constant: -30).isActive = true
-        
-        var multiplier: CGFloat = 0.0
-        
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            multiplier = 0.35
-        }else {
-            multiplier = 0.55
-        }
-        
-        ivPoster.widthAnchor.constraint(equalToConstant: view.frame.width * multiplier).isActive = true
-        ivPoster.topAnchor.constraint(equalTo: ivBanner.topAnchor, constant: 16).isActive = true
-        ivPoster.leftAnchor.constraint(equalTo: ivBanner.leftAnchor, constant: 16).isActive = true
-        ivPoster.bottomAnchor.constraint(equalTo: ivBanner.bottomAnchor, constant: -16).isActive = true
-        
-        stackView.topAnchor.constraint(equalTo: ivPoster.topAnchor, constant: 8).isActive = true
-        stackView.leftAnchor.constraint(equalTo: ivPoster.rightAnchor, constant: 8).isActive = true
-        stackView.rightAnchor.constraint(equalTo: ivBanner.rightAnchor, constant: -8).isActive = true
-        
-        ivBanner.heightAnchor.constraint(equalToConstant: view.frame.height * 0.4).isActive = true
-        ivBanner.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 0).isActive = true
-        ivBanner.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        ivBanner.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-        
-        stackViewOverview.topAnchor.constraint(equalTo: ivBanner.bottomAnchor, constant: 16).isActive = true
-        stackViewOverview.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8).isActive = true
-        stackViewOverview.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8).isActive = true
-        stackViewOverview.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0).isActive = true
-
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            scrollViewContainer.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            scrollViewContainer.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            scrollViewContainer.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            scrollViewContainer.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            scrollViewContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        ])
+    
+        setupContainer(scrollViewContainer)
         setupData()
 
     }
     
-    func setupData(){
+    private func setupContainer(_ container: UIStackView) {
+       
+        container.addArrangedSubview(infoShowView)
+        container.addArrangedSubview(backOverviewView)
+
+        infoShowView.addSubview(ivBanner)
+        infoShowView.addSubview(stackViewInfo)
+        infoShowView.addSubview(ivPoster)
+        infoShowView.addSubview(btFav)
+        
+        backOverviewView.addSubview(stackViewOverview)
+        
+        NSLayoutConstraint.activate([
+            btFav.topAnchor.constraint(equalTo: ivPoster.bottomAnchor, constant: -40),
+            btFav.leftAnchor.constraint(equalTo: ivPoster.rightAnchor, constant: -30),
+        
+            ivPoster.topAnchor.constraint(equalTo: ivBanner.topAnchor, constant: 16),
+            ivPoster.leftAnchor.constraint(equalTo: ivBanner.leftAnchor, constant: 16),
+            ivPoster.bottomAnchor.constraint(equalTo: ivBanner.bottomAnchor, constant: -16),
+            
+            stackViewInfo.topAnchor.constraint(equalTo: ivPoster.topAnchor, constant: 8),
+            stackViewInfo.leftAnchor.constraint(equalTo: ivPoster.rightAnchor, constant: 8),
+            stackViewInfo.rightAnchor.constraint(equalTo: ivBanner.rightAnchor, constant: -8),
+            
+            ivBanner.topAnchor.constraint(equalTo: infoShowView.topAnchor),
+            ivBanner.leftAnchor.constraint(equalTo: infoShowView.leftAnchor),
+            ivBanner.rightAnchor.constraint(equalTo: infoShowView.rightAnchor),
+            ivBanner.bottomAnchor.constraint(equalTo: infoShowView.bottomAnchor),
+            
+            stackViewOverview.topAnchor.constraint(equalTo: backOverviewView.topAnchor),
+            stackViewOverview.leftAnchor.constraint(equalTo: backOverviewView.leftAnchor, constant: 16),
+            stackViewOverview.rightAnchor.constraint(equalTo: backOverviewView.rightAnchor, constant: -16),
+            stackViewOverview.bottomAnchor.constraint(equalTo: backOverviewView.bottomAnchor)
+        ])
+    }
+    
+    private func setupData(){
         lbTitle.text = tvShowVM.title
         lbGender.text = tvShowVM.genderIds
         lbRatening.text = tvShowVM.avaregeVote
@@ -221,7 +270,7 @@ extension DetailTvShowVC {
         ivBanner.sd_setImage(with: urlToDownBImage)
     }
     
-    @objc func FavAction(_ sender: UIButton){
+    @objc private func FavAction(_ sender: UIButton){
         let color = CRUD().Update(tvShow: self.tvShowVM.toCRUD())
         sender.setImage(UIImage(named: "like")?.tint(with: color), for: .normal)
     }
