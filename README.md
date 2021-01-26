@@ -42,6 +42,8 @@ And run project
   2.2. Inside the favorite detail TV show screen, you can remove it.
 3. Detail Screen: Title, Genre, Overview, Score, Votes average, Image of poster and image of banne.
 4. All data are in pt-BR.
+5. Dark Mode (Automatic)
+6. Landscape Mode for iPad and iPhone
 ```
 
 ## Supported ROM's 
@@ -56,6 +58,7 @@ iPADOS 13*
 * [Swift](https://swift.org) - 
 *  MVVM - Architecture used
 *  View-Code layout
+*  SwiftPackageManager - for dependencies
 
 ## Authors
 
